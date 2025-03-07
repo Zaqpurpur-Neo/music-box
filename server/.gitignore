@@ -1,0 +1,5 @@
+node_modules
+db
+music-container
+package-lock.json
+.env

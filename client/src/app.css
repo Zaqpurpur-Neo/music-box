@@ -1,0 +1,393 @@
+#app {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+.container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	gap: 1em;
+	box-sizing: border-box;
+}
+
+.sidebar-content {
+	position: fixed;
+	width: 5em;
+	height: 100%;
+	background: #121212;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	padding-bottom: 2em;
+	box-sizing: border-box;
+}
+
+.sidebar-content .logo {
+	margin-top: .5em;
+	font-size: 2em;
+}
+
+.sidebar-content .sidebar-menu {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2em;
+}
+
+.sidebar-content .sidebar-menu .add-music {
+	padding: 1em 1.25em;
+	border: none;
+	background: #343434;
+	border-radius: 10px;
+	cursor: pointer;
+	z-index: 4;
+}
+
+.sidebar-content .sidebar-menu .add-music:hover {
+	background: #3c3c3c;
+}
+
+.sidebar-content .account {
+	justify-self: self-end;
+}
+
+.main-content {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	padding-top: 1em;
+	padding-left: 7em;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.main-content .scroller {
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+}
+
+.main-content .scroller::-webkit-scrollbar-track {
+	display: none;
+}
+
+.main-content .top-content {
+	padding: .5em;
+}
+
+.music-list {
+	position: relative;
+	display: flex;
+	gap: 1em;
+	padding: .5em;
+	margin: 0 auto;
+	flex-wrap: wrap;
+}
+
+.card-box {
+	position: relative;
+	box-sizing: border-box;
+	background: #121212;
+	padding: .5em;
+	border-radius: 10px;
+	display: flex;
+	gap: .5em;
+	flex-direction: column;
+	width: 18em;
+	cursor: pointer;
+	border: 1px solid transparent;
+}
+
+.card-box:hover {
+	border: 1px solid #fff;
+}
+
+.card-box.playing {
+	border: 1px solid #fff;
+}
+
+.card-box .thumbnail {
+	border-radius: 8px;
+	width: 100%;
+	aspect-ratio: 16/9;
+}
+
+.card-box .info-section {
+	position: relative;
+	box-sizing: border-box;
+	width: 100%;
+	overflow: hidden;
+}
+
+.card-box .info-section .title {
+	position: relative;
+	font-size: .85em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+	overflow: hidden;
+}
+
+.card-box .info-section .author {
+	position: relative;
+	margin-bottom: .75em;
+	color: #5f5f5f;
+	font-size: .75em;
+	font-weight: 600;
+}
+
+.card-box .info-section p {
+	display: flex;
+	gap: .25em;
+	font-size: .75em;
+	line-height: 2px;
+	padding-bottom: .25em;
+	align-items: center;
+	color: #5f5f5f;
+	font-weight: 600;
+
+	& i {
+		width: 1.25em;
+	}
+
+	&.likes i {
+		margin-left: .05em;
+	}
+}
+
+.music-player-mini {
+	position: relative;
+	max-width: 100%;
+	height: 7em;
+	padding: .5em;
+	box-sizing: border-box;
+	overflow-y: hidden;
+}
+
+.music-player-mini .container {
+	width: 100%;
+	height: 100%;
+	background: #121212;
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	padding: .5em;
+	justify-content: space-between;
+	animation: pop-up 500ms ease;
+	transition: all .4s ease;
+}
+
+.music-player-mini .container .info-section {
+	position: relative;
+	display: flex;
+	width: 20em;
+	height: 100%;
+	gap: .5em;
+	overflow: hidden;
+
+	& img {
+		position: relative;
+		width: 7em;
+		aspect-ratio: 3/1;
+		flex-shrink: 0;
+		border-radius: 8px;
+	}
+
+	& .title {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-size: .75em;
+		overflow: hidden;
+		font-weight: 700;
+	}
+
+	& .author {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-size: .7em;
+		overflow: hidden;
+		font-weight: 500;
+	}
+
+	& .now-playing {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-size: .7em;
+		overflow: hidden;
+		font-weight: 500;
+		color: #828282;
+	}
+}
+
+.music-player-mini .container .player {
+	display: flex;
+	flex-direction: column;
+	gap: .25em;
+	align-items: center;
+	margin-right: 14em;
+}
+
+.music-player-mini .container .player .controller {
+	display: flex;
+	gap: 1.25em;
+	& button {
+		cursor: pointer;
+		width: 2.5em;
+		height:2.53em;
+		font-size: 1em;
+		color: #fff;
+		border-radius: 40px;
+		border: none;
+		background: none;
+	}
+
+	& button.bold {
+		background: #363636;
+	}
+}
+
+.music-player-mini .container .player .progress-section {
+	display: flex;
+	align-items: center;
+	gap: .5em;
+
+	& p {
+		color: #828282;
+		font-size: .75em;	
+	}
+}
+
+.music-player-mini .container .player .progress-container {
+	height: .25em;
+	width: 20em;
+	background: #292929;
+
+	& .progress {
+		height: 100%;
+		width: 100%;
+		background: #fff;
+	}
+}
+
+.music-player-mini .container .settings {
+	position: relative;
+	padding: 0 1.25em;
+}
+
+.music-player-mini .container .settings 
+.fullscreen-btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 1em;
+	padding: .75em;
+	border-radius: 10px;
+
+	&:hover {
+		background: #323232;
+	}
+}
+
+
+@keyframes pop-up {
+	0% {
+		transform: translateY(40em);
+	}
+	100% {
+		transform: translateY(0);
+	}
+}
+
+.music-player-full {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #121212;
+	box-sizing: border-box;
+	z-index: 4;
+}
+
+.music-player-full .sphere {
+	position: absolute;
+	width: 38em;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	animation: pop-in .4s ease;
+	transform-origin:  0 0;
+}
+
+
+.popup-add-music {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, .75);
+}
+
+.popup-add-music .container {
+	position: absolute;
+	width: 40em;
+	height: auto;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #181818;
+	border-radius: 18px;
+	display: flex;
+	flex-direction: column;
+	padding: 1em;
+	box-sizing: border-box;
+	justify-content: center;
+}
+
+.popup-add-music .container .le-inputer {
+	display: flex;
+	gap: 1em;
+}
+
+.popup-add-music .container 
+.le-inputer .add-music {
+	padding: 1em 1.5em;
+	border: none;
+	background: #343434;
+	border-radius: 10px;
+	cursor: pointer;
+	z-index: 4;	
+}
+
+.popup-add-music .container 
+.le-inputer input {
+	position: relative;
+	font-size: 1em;
+	padding: 1em;
+	outline: none !important;
+	border: 1px solid #8f8f8f;
+	border-radius: 10px;
+	width: 100%;
+	flex-grow: 2;
+	box-sizing: border-box;
+}
+
+@keyframes fade-in {
+	0% { opacity: 0;}
+	100% { opacity: 1;}
+}
+
+@keyframes pop-in {
+	0% { scale: .4; }
+	100% { scale: 1; }
+}
+
