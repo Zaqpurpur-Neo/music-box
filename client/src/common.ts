@@ -2,6 +2,7 @@ import { Dispatch, StateUpdater } from "preact/hooks"
 
 export const BASE_API_URL: string = "http://localhost:4000"
 export const API_ENDPOINT: string = BASE_API_URL + "/api"
+export const audioGlobal = new Audio()
 
 export class Visualizer {
 	FFT_SIZE: number = 512;
@@ -82,6 +83,6 @@ export interface ContextMusicPlayed {
 }
 
 export interface ContextAudioPlay {
-	audioPlay: HTMLAudioElement | null,
-	setAudioPlay: Dispatch<StateUpdater<HTMLAudioElement | null>>
+	audioPlay: string | null,
+	setAudioPlay: Dispatch<StateUpdater<string | null>>
 }

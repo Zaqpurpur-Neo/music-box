@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'preact/hooks'
 import './app.css'
-import { API_ENDPOINT, ContextAudioPlay, ContextMusicItem, ContextMusicPlayed, MusicResult, Visualizer} from './common'
+import { API_ENDPOINT, audioGlobal, ContextAudioPlay, ContextMusicItem, ContextMusicPlayed, MusicResult, Visualizer} from './common'
 import { createContext } from 'preact'
 import { memo, TargetedEvent } from 'preact/compat'
 
@@ -9,16 +9,16 @@ const MusicPlayed = createContext<ContextAudioPlay>({} as ContextAudioPlay)
 const MusicList = createContext<ContextMusicItem>({} as ContextMusicItem)
 
 function CardBox({ content }: { content: MusicResult }) {
-	const {audioPlay, setAudioPlay} = useContext(MusicPlayed)
+	const {setAudioPlay} = useContext(MusicPlayed)
 	const {musicPlayed, setMusicPlayed, setPlaying} = useContext(CurrentMusicPlayed)
 
 	return (<div className={"card-box " + (musicPlayed.id === content.id ? "playing" : "")} onClick={() => {
 		if(!musicPlayed.id || musicPlayed.id !== content.id) {
-			audioPlay?.pause()
+			audioGlobal.pause()
 
 			setPlaying(true)
 			setMusicPlayed(content)
-			setAudioPlay(new Audio(content.music_path))
+			setAudioPlay(content.music_path)
 		}
 	}}>
 		<img className={"thumbnail"} src={content.thumbnail_path} />
@@ -115,22 +115,20 @@ function CenterContent() {
 	}, [])
 
 	useEffect(() => {
-		if(!audioPlay) return
-
 		const fn = () => {
-			setProgress(Math.floor(audioPlay.currentTime / musicPlayed.music.length_seconds * 100));
+			setProgress(Math.floor(audioGlobal.currentTime / musicPlayed.music.length_seconds * 100));
 		}
 		const fnDone = () => {
-			audioPlay.currentTime = 0;
+			audioGlobal.currentTime = 0;
 			setPlaying(false)
 		}
 
-		audioPlay.addEventListener("timeupdate", fn)
-		audioPlay.addEventListener("ended", fnDone)
+		audioGlobal.addEventListener("timeupdate", fn)
+		audioGlobal.addEventListener("ended", fnDone)
 
 		return () => {
-			audioPlay.removeEventListener("timeupdate", fn)
-			audioPlay.removeEventListener("ended", fnDone)
+			audioGlobal.removeEventListener("timeupdate", fn)
+			audioGlobal.removeEventListener("ended", fnDone)
 		}
 	}, [isPlaying, audioPlay])
 
@@ -165,14 +163,14 @@ function CenterContent() {
 					setFullscreen(true)
 				}}
 				backwardEvent={() => {
-					if(audioPlay) audioPlay.currentTime = 0
+					audioGlobal.currentTime = 0
 				}}
 				eventPlay={() => {
 					if(isPlaying) {
-						audioPlay?.pause()
+						audioGlobal.pause()
 						setPlaying(false)
 					} else {
-						audioPlay?.play()
+						audioGlobal.play()
 						setPlaying(true)
 					}
 				}} 
@@ -244,7 +242,7 @@ function Sidebar({ fnAdd }: {
 
 export default function App() {
 	const [musicPlayed, setMusicPlayed] = useState({} as MusicResult)
-	const [audioPlay, setAudioPlay] = useState<HTMLAudioElement | null>(null)
+	const [audioPlay, setAudioPlay] = useState<string | null>(null)
 	const [isPlaying, setPlaying] = useState<boolean>(false)
 	const [music, setMusic] = useState([] as Array<MusicResult>)
 
@@ -280,9 +278,10 @@ export default function App() {
 
 
 	useEffect(() => {
-		audioPlay?.play()
-
-		
+		if(audioPlay) {
+			audioGlobal.src = audioPlay
+			audioGlobal.play()
+		}
 	}, [audioPlay])
 
 	const MemoSidebar = memo(Sidebar)
